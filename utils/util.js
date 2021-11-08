@@ -1,7 +1,7 @@
 /**
  * 通用工具函数
  */
-const log4j = require('log4js')
+const log4j = require('./log4j')
 const CODE = {
   SUCCESS: 200,
   PARAM_ERROR: 1001, // 参数错误
@@ -36,7 +36,7 @@ module.exports = {
     }
   },
 
-  fail (msg = '', code = CODE.BUSINESS_ERROR) {
+  fail (msg = '', code = CODE.BUSINESS_ERROR, data = '') {
     log4j.debug(msg)
     return {
       code, data, msg
