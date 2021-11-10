@@ -7,6 +7,7 @@ const bodyparser = require('koa-bodyparser')
 // const logger = require('koa-logger')
 const log4js = require('./utils/log4j')
 const users = require('./routes/users')
+const approve = require('./routes/approve')
 const router = require('koa-router')()
 
 // error handler
@@ -36,7 +37,7 @@ app.use(async (ctx, next) => {
 router.prefix('/vue3Bms')
 
 router.use(users.routes(), users.allowedMethods())
-
+router.use(approve.routes(), approve.allowedMethods())
 app.use(router.routes(), router.allowedMethods())
 
 // error-handling
