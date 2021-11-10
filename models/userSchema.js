@@ -29,3 +29,4 @@ const useSchema = mongoose.Schema({
 })
 
 module.exports = mongoose.model('users', useSchema, "users")
+// 最后一个users表示表名
