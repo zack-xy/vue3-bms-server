@@ -8,15 +8,9 @@ const jwt = require('jsonwebtoken')
 
 router.prefix('/approve')
 
-// 测试token过期
+// 测试
 router.post('/count', async (ctx) => {
-  const token = ctx.request.headers.authorization
-  try {
-    jwt.verify(token, config.TOKEN_KEY)
-    ctx.body = util.success({ data: 1 }, '成功')
-  } catch (error) {
-    ctx.body = util.fail('token过期')
-  }
+  ctx.body = util.success({ data: 1 }, '成功')
 })
 
 
