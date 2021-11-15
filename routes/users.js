@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken')
 
 router.prefix('/users')
 
+// 用户登录
 router.post('/login', async (ctx) => {
   try {
     const { userName, userPwd } = ctx.request.body
@@ -35,6 +36,32 @@ router.post('/login', async (ctx) => {
     }
   } catch (error) {
     ctx.body = util.fail(error.msg)
+  }
+})
+
+// 用户列表
+router.post('/list', async (ctx) => {
+  const { userId, userName, state } = ctx.request.body
+  const { page, skipIndex } = util.pager(ctx.request.body)
+  let params = {}
+  if (userId) params.userId = userId
+  if (userName) params.userName = userName
+  if (state && state !== 0) params.state = state
+  try {
+    //根据条件查询所有的用户，不返回_id和userPwd
+    const query = User.find(params, { _id: 0, userPwd: 0 })
+    const list = await query.skip(skipIndex).limit(page.pageSize)
+    const total = await User.countDocuments(params)
+
+    ctx.body = util.success({
+      page: {
+        ...page,
+        total
+      },
+      list
+    })
+  } catch (error) {
+    ctx.body = util.fail(`查询异常:${error.stack}`)
   }
 })
 
