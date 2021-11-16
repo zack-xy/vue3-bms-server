@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const useSchema = mongoose.Schema({
-  "userId": Number, // 用户ID，自增长
+  "userId": String, // 用户ID，自增长
   "userName": String, // 用户名称
   "userPwd": String, // 用户密码
   "userEmail": String, // 用户邮箱

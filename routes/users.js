@@ -65,5 +65,20 @@ router.post('/list', async (ctx) => {
   }
 })
 
+// 用户删除/批量删除
+router.post('/delete', async (ctx) => {
+  const { userIds } = ctx.request.body
+  // User.updateMany({ $or: [{ userId: '100001' }, { userId: '100002' }] }) 
+  // 更新userId为'100001'或'100002'
+  // User.updateMany({ userId: { $in: ['100001', '100002'] } })
+  // 更新userId在['100001', '100002']里的
+  const res = await User.updateMany({ userId: { $in: userIds } }, { state: 2 })
+  if (res.modifiedCount) {
+    ctx.body = util.success(res, `共删除${res.modifiedCount}条`)
+    return
+  }
+  ctx.body = util.fail('删除失败')
+})
+
 
 module.exports = router
