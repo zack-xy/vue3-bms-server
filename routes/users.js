@@ -132,5 +132,15 @@ router.post('/operate', async (ctx) => {
   }
 })
 
+// 获取全量用户列表
+router.post('/all/list', async (ctx) => {
+  try {
+    const list = await User.find({}, 'userId userName userEmail')
+    ctx.body = util.success(list)
+  } catch (error) {
+    ctx.body = util.error(error.stack)
+  }
+})
+
 
 module.exports = router
