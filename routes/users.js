@@ -137,11 +137,15 @@ router.post('/all/list', async (ctx) => {
 })
 // 获取用户对应的权限菜单
 router.post('/getPermissionList', async (ctx) => {
-  let authorization = ctx.request.headers.authorization
-  let { data } = util.decoded(authorization)
-  let menuList = await getMenuList(data.role, data.roleList)
-  let actionList = getActionList(JSON.parse(JSON.stringify(menuList)))
-  ctx.body = util.success({ menuList, actionList })
+  try {
+    let authorization = ctx.request.headers.authorization
+    let { data } = util.decoded(authorization)
+    let menuList = await getMenuList(data.role, data.roleList)
+    let actionList = getActionList(JSON.parse(JSON.stringify(menuList)))
+    ctx.body = util.success({ menuList, actionList })
+  } catch (error) {
+    ctx.body = util.error(error.stack)
+  }
 })
 async function getMenuList (userRole, roleKeys) {
   let rootList = []
