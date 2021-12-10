@@ -126,4 +126,18 @@ router.post('/approve', async (ctx) => {
     ctx.body = util.fail(`审核失败${error.stack}`)
   }
 })
+
+router.post('/count', async (ctx) => {
+  let authorization = ctx.request.headers.authorization
+  let { data } = util.decoded(authorization)
+  try {
+    let params = {}
+    params.curAuditUserName = data.userName
+    params.$or = [{ applyState: 1 }, { applyState: 2 }]
+    const total = await Leave.countDocuments(params)
+    ctx.body = util.success(total)
+  } catch (error) {
+    ctx.body = util.fail(`查询异常:${error.message}`)
+  }
+})
 module.exports = router
